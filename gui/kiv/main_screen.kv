@@ -1,0 +1,101 @@
+#:set dark_background [.0, .0, .0, 1.0]
+#:set blue_button_1 [0.46, 0.34, 0.86, 1.0]
+#:import VideoWidget gui.video.VideoWidget
+
+<MainScreen>:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: dark_background
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            orientation: 'vertical'
+            size_hint: 1, 0.85
+            padding: [20, 20, 20, 20]
+            spacing: 10
+            VideoWidget:
+                id: video
+                allow_stretch: True
+                port_num: 0
+                thresh_value: int(thresh_slider.value)
+                size_hint: 1, 1
+                animation_offset: 1
+        BoxLayout:
+            canvas.before:
+                Color:
+                    rgba: dark_background
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            orientation: 'horizontal'
+            size_hint: 1, 0.15
+            padding: [20, 20, 20, 20]
+            spacing: 10
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint_x: 0.5
+                Button:
+                    size_hint_y: None
+                    height: '48dp'
+                    text: "Start"
+                    pos_hint : {'x': 0, 'center_y':.6}
+                    background_color: blue_button_1
+                    on_press:
+                        root.stitch_image_motor_control()
+                Button:
+                    size_hint_y: None
+                    height: '48dp'
+                    text: "Stop"
+                    pos_hint : {'x': 0, 'center_y':.6}
+                    background_color: blue_button_1
+                    on_press:
+                        root._stop_motor_control()
+                Button:
+                    size_hint_y: None
+                    height: '48dp'
+                    text: "Stitch Result"
+                    pos_hint : {'x': 0, 'center_y':.6}
+                    background_color: blue_button_1
+                    on_press:
+                        root.show_stitched_result()
+                Button:
+                    size_hint_y: None
+                    height: '48dp'
+                    text: "Close"
+                    pos_hint : {'x': 0, 'center_y':.6}
+                    background_color: blue_button_1
+                    on_press:
+                        root.close_window()
+            BoxLayout:
+                size_hint_x: 0.5
+                orientation: "horizontal"
+                Label:
+                    size_hint_y: None
+                    id: label1
+                    size_hint_x: 0.1
+                    font_size: 16
+                    text: "0"
+                    color: 1, 0, 0, 1
+                    pos_hint:{'x':0, 'center_y': 0.6}
+                Slider:
+                    id: thresh_slider
+                    size_hint_y: None
+                    size_hint_x: 0.8
+                    min: 0
+                    max: 255
+                    value: 127
+                    pos_hint:{'x':0, 'center_y': 0.6}
+                    on_value:label2.text = str(int(self.value))
+                Label:
+                    size_hint_y: None
+                    id: label2
+                    size_hint_x: 0.1
+                    font_size: 16
+                    text: "127"
+                    color: 1, 0, 0, 1
+                    pos_hint:{'x':0, 'center_y': 0.6}
